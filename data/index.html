@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automate Irrigation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Automate Irrigation</h1>
+        
+        <section>
+            <h2>GPIO Control</h2>
+            <div class="gpio-control">
+                <label for="gpio-select">Select GPIO:</label>
+                <select id="gpio-select">
+                    <option value="2">GPIO2</option>
+                    <option value="4">GPIO4</option>
+                    <option value="5">GPIO5</option>
+                </select>
+                <button id="gpio-on" onclick="controlGPIO('on')">Turn ON</button>
+                <button id="gpio-off" onclick="controlGPIO('off')">Turn OFF</button>
+            </div>
+        </section>
+
+        <section>
+            <h2>Schedule Irrigation</h2>
+            <div class="schedule">
+                <label for="start-time">Start Time:</label>
+                <input type="datetime-local" id="start-time">
+                
+                <label for="end-time">End Time:</label>
+                <input type="datetime-local" id="end-time">
+                
+                <label for="repeat">Repeat:</label>
+                <select id="repeat">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+                <button onclick="scheduleIrrigation()">Set Schedule</button>
+            </div>
+        </section>
+
+        <section>
+            <h2>Status</h2>
+            <div id="status">
+                <p>Current GPIO Status: <span id="gpio-status">OFF</span></p>
+                <p>Next Scheduled Start: <span id="next-schedule">None</span></p>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
