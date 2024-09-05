@@ -9,6 +9,7 @@
 #include "../include/WebServerModule.h"
 #include "../include/RealTimeClock.h"
 #include "../include/RTOSManager.h"
+#include "BlinkLed.h"
 
 void setup() {
     Serial.begin(115200);
@@ -21,25 +22,25 @@ void setup() {
     MqttManager::connect();
 
     // Inicializa Firebase
-    FirebaseManager::init();
+    // FirebaseManager::init();
 
     // Inicializa GPIO
     GpioControl::init();
 
     // Inicializa RTC
-    RealTimeClock::init();
+    // RealTimeClock::init();
 
     // Inicializa OTA Update
-    OTAUpdate::init();
+    // OTAUpdate::init();
 
     // Inicializa Web Server
-    WebServer::init();
+    // WebServer::init();
 
     // Inicializa Scheduler
-    Scheduler::init();
+    // Scheduler::init();
 
     // Inicializa RTOS Manager
-    RTOSManager::init();
+    // RTOSManager::init();
 }
 
 void loop() {
@@ -49,11 +50,13 @@ void loop() {
     // Atualiza os módulos
     MqttManager::update();
     MqttManager::loop();
-    FirebaseManager::update();
-    Scheduler::update();
-    WebServer::handleClient();
-    OTAUpdate::handleUpdate();
-    RTOSManager::runTasks();
+    // FirebaseManager::update();
+    // Scheduler::update();
+    // WebServer::handleClient();
+    // OTAUpdate::handleUpdate();
+    // RTOSManager::runTasks();
 
+    blink();
+    // Realiza um delay de 1 segundo
     delay(1000);
 }

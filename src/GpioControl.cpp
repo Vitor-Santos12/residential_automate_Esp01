@@ -6,8 +6,8 @@ GpioControl::GpioControl() {
 
 void GpioControl::init() {
     // Inicialização dos pinos como INPUT por padrão
-    setPinMode(GPIO0, INPUT);
-    setPinMode(GPIO2, INPUT);
+    setPinMode(GPIO0, OUTPUT);
+    setPinMode(GPIO2, OUTPUT);
 }
 
 void GpioControl::setPinMode(uint8_t pin, uint8_t mode) {
