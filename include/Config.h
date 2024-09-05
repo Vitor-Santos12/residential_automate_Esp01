@@ -4,6 +4,8 @@
 #include <ArduinoJson.h>
 #include <FS.h>
 
+#define FORMAT_SPIFFS_IF_FAILED true
+
 // Estrutura para armazenar as configurações
 struct Config {
     char wifiSSID[32];
