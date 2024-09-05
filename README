@@ -1,8 +1,7 @@
-# Projeto de Automação de Irrigação com ESP8266
-
+# Projeto de Automação de Irrigação com ESP8266 (ESP - 01)
 Este projeto utiliza um ESP8266 (ESP-01) para automatizar o controle de irrigação. O sistema é configurado para conectar-se ao Firebase e ao MQTT para monitoramento e controle remoto. A interface web usa Bootstrap para uma apresentação moderna e responsiva.
 
-## Componentes do Projeto
+Componentes do Projeto
 
 1. **ESP8266 (ESP-01)**: Microcontrolador principal.
 2. **Firebase**: Para armazenamento e sincronização de dados em tempo real.
