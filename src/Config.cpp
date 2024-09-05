@@ -6,7 +6,7 @@ bool loadConfig(Config &config) {
         return false;
     }
 
-    File file = SPIFFS.open("/.env", "r");
+    File file = SPIFFS.open("/secret.env", "r");
     if (!file) {
         Serial.println("Falha ao abrir o arquivo secret.env");
         return false;
@@ -26,13 +26,13 @@ bool loadConfig(Config &config) {
         return false;
     }
 
-    strlcpy(config.wifiSSID, doc["wifiSSID"], sizeof(config.wifiSSID));
-    strlcpy(config.wifiPassword, doc["wifiPassword"], sizeof(config.wifiPassword));
+    strlcpy(config.wifiSSID, doc["WIFI_SSID"], sizeof(config.wifiSSID));
+    strlcpy(config.wifiPassword, doc["WIFI_PASSWORD"], sizeof(config.wifiPassword));
     config.piscaLed = doc["piscaLed"];
     strlcpy(config.mqttServer, doc["mqttServer"], sizeof(config.mqttServer));
     config.mqttPort = doc["mqttPort"];
-    strlcpy(config.firebaseHost, doc["firebaseHost"], sizeof(config.firebaseHost));
-    strlcpy(config.firebaseAuth, doc["firebaseAuth"], sizeof(config.firebaseAuth));
+    strlcpy(config.firebaseHost, doc["FIREBASE_HOST"], sizeof(config.firebaseHost));
+    strlcpy(config.firebaseAuth, doc["FIREBASE_AUTH"], sizeof(config.firebaseAuth));
 
     return true;
 }

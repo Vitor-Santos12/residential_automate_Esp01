@@ -12,30 +12,30 @@
 
 #include "BlinkLed.h"
 
-Config config;
+Config configurator;
 
 void setup() {
     Serial.begin(115200);
 
-    if (!loadConfig(config)) {
+    if (!loadConfig(configurator)) {
         Serial.println("Falha ao carregar as configurações");
         while (true);
     }
 
     Serial.print("SSID: ");
-    Serial.println(config.wifiSSID);
+    Serial.println(configurator.wifiSSID);
     Serial.print("Password: ");
-    Serial.println(config.wifiPassword);
+    Serial.println(configurator.wifiPassword);
     Serial.print("Pisca LED: ");
-    Serial.println(config.piscaLed);
+    Serial.println(configurator.piscaLed);
     Serial.print("MQTT Server: ");
-    Serial.println(config.mqttServer);
+    Serial.println(configurator.mqttServer);
     Serial.print("MQTT Port: ");
-    Serial.println(config.mqttPort);
+    Serial.println(configurator.mqttPort);
     Serial.print("Firebase Host: ");
-    Serial.println(config.firebaseHost);
+    Serial.println(configurator.firebaseHost);
     Serial.print("Firebase Auth: ");
-    Serial.println(config.firebaseAuth);
+    Serial.println(configurator.firebaseAuth);
     
     // Inicializa Wi-Fi
     // WifiManager::init();
@@ -48,7 +48,7 @@ void setup() {
     // FirebaseManager::init();
 
     // Inicializa GPIO
-    GpioControl::init();
+    // GpioControl::init();
 
     // Inicializa RTC
     // RealTimeClock::init();
@@ -68,7 +68,7 @@ void setup() {
 
 void loop() {
     // Atualiza o Watchdog
-    // ESP.wdtFeed();
+    ESP.wdtFeed();
 
     // Atualiza os módulos
     // MqttManager::update();
