@@ -1,19 +1,21 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-// Definições de configuração
-#define WIFI_SSID "SuaSSID"
-#define WIFI_PASSWORD "SuaSenha"
+#include <ArduinoJson.h>
+#include <FS.h>
 
-// Definições de pinos GPIO
-#define GPIO2_PIN 2
+// Estrutura para armazenar as configurações
+struct Config {
+    char wifiSSID[32];
+    char wifiPassword[64];
+    int piscaLed;
+    char mqttServer[64];
+    int mqttPort;
+    char firebaseHost[64];
+    char firebaseAuth[64];
+};
 
-// Configurações de MQTT
-#define MQTT_SERVER "mqtt.seuservidor.com"
-#define MQTT_PORT 1883
-
-// Configurações do Firebase
-#define FIREBASE_HOST "seuprojeto.firebaseio.com"
-#define FIREBASE_AUTH "SuaChaveSecreta"
+// Declaração da função para carregar as configurações
+bool loadConfig(Config &config);
 
 #endif // CONFIG_H

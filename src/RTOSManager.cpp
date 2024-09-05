@@ -1,9 +1,9 @@
-#include "../include/RTOSManager.h"
+// #include "../include/RTOSManager.h"
 
-void RTOSManager::init() {
-    // Inicializa o RTOS
-}
+// void RTOSManager::init() {
+//     // Inicializa o RTOS
+// }
 
-void RTOSManager::runTasks() {
-    // Código para executar as tarefas do RTOS
-}
+// void RTOSManager::runTasks() {
+//     // Código para executar as tarefas do RTOS
+// }

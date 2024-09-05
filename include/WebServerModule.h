@@ -1,10 +1,10 @@
-#ifndef WEBSERVERMODULE_H
-#define WEBSERVERMODULE_H
+// #ifndef WEBSERVERMODULE_H
+// #define WEBSERVERMODULE_H
 
-class WebServer {
-public:
-    static void init();
-    static void handleClient();
-};
+// class WebServer {
+// public:
+//     static void init();
+//     static void handleClient();
+// };
 
-#endif // WEBSERVERMODULE_H
+// #endif // WEBSERVERMODULE_H
