@@ -2,24 +2,25 @@
 #include "MqttManager.h"
 #include "Config.h"
 
-Config config;
+Config configMqttManager;
 
 MqttManager::MqttManager() {
     // Construtor vazio
 }
 
 void MqttManager::init(Client &client) {
-    
+
     mqttClient.setClient(client);
 
-    mqttClient.setServer(config.mqttBroker.c_str(), config.mqttPort);
+    mqttClient.setServer(configMqttManager.mqttBroker.c_str(), configMqttManager.mqttPort);
 }
 
 void MqttManager::connect() {
+
     while (!mqttClient.connected()) {
         Serial.println("Connecting to MQTT...");
 
-        if (mqttClient.connect("ESP8266Client", config.mqttUser.c_str(), config.mqttPassword.c_str())) {
+        if (mqttClient.connect("ESP8266Client", configMqttManager.mqttUser.c_str(), configMqttManager.mqttPassword.c_str())) {
             Serial.println("Connected to MQTT broker");
         } else {
             Serial.print("Failed to connect, rc=");

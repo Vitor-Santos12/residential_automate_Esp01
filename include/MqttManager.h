@@ -13,13 +13,6 @@ public:
     void loop();
 
 private:
-    void loadEnvConfig();
-
-    String mqttBroker;
-    uint16_t mqttPort;
-    String mqttUser;
-    String mqttPassword;
-
     PubSubClient mqttClient;
 };
 

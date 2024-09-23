@@ -1,14 +1,13 @@
-#include "../include/WifiManager.h"
-#include "../include/Config.h"
+#include "WebServerAndOTAUpdate.h"
+#include "Config.h"
 #include <ESP8266WiFi.h>
-#include <ArduinoJson.h>
 #include <FS.h>
 
 void WifiManager::init() {
 // Recieve configuration values
-Config config;
+Config configWifiManager;
 
-    WiFi.begin(config.wifiSSID, config.wifiPassword);
+    WiFi.begin(configWifiManager.wifiSSID, configWifiManager.wifiPassword);
     while (WiFi.status() != WL_CONNECTED) {
         delay(1000);
         Serial.println("Conectando ao Wi-Fi...");

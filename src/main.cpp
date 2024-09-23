@@ -1,5 +1,5 @@
 #include "Config.h"
-#include "WifiManager.h"
+#include "WebServerAndOTAUpdate.h"
 #include "MqttManager.h"
 // #include "FirebaseManager.h"
 #include "GpioControl.h"
@@ -25,14 +25,14 @@ void setup() {
     WifiManager::init();
 
     // Inicializa MQTT
-    MqttManager::init();
-    MqttManager::connect();
+    // MqttManager::init();
+    // MqttManager::connect();
 
     // Inicializa Firebase
     // FirebaseManager::init();
 
     // Inicializa GPIO
-    GpioControl::init();
+    // GpioControl::init();
 
     // Inicializa RTC
     RealTimeClock::init();
@@ -52,18 +52,16 @@ void setup() {
 
 void loop() {
     // Atualiza o Watchdog
-    ESP.wdtFeed();
+    // ESP.wdtFeed();
 
     // Atualiza os módulos
-    MqttManager::update();
-    MqttManager::loop();
+    // MqttManager::loop();
     // FirebaseManager::update();
-    Scheduler::update();
-    WebServer::handleClient();
-    OTAUpdate::handleUpdate();
-    RTOSManager::runTasks();
-// ** Pisca Led Funcionou
-    blink();
+        Scheduler::update();
+        WebServer::handleClient();
+        RTOSManager::runTasks();
+    // ** Pisca Led Funcionou
+        blink();
     // Realiza um delay de 1 segundo
-    delay(1000);
+        delay(1000);
 }

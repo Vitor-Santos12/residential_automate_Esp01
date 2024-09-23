@@ -1,4 +1,4 @@
-#include "../include/RTOSManager.h"
+#include "RTOSManager.h"
 
 void RTOSManager::init() {
     // Inicializa o RTOS

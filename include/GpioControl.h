@@ -4,6 +4,7 @@
 #include <Arduino.h>
 
 class GpioControl {
+
 public:
     GpioControl();
     void init();
@@ -14,6 +15,7 @@ public:
     // Definição dos pinos do ESP01-8266
     static const uint8_t GPIO0 = 0; // Pin 3
     static const uint8_t GPIO2 = 2; // Pin 4
+
 };
 
 #endif
