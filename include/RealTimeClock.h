@@ -1,13 +1,13 @@
-// #ifndef REALTIMECLOCK_H
-// #define REALTIMECLOCK_H
+#ifndef REALTIMECLOCK_H
+#define REALTIMECLOCK_H
 
-// #include <Arduino.h>
+#include <Arduino.h>
 
-// class RealTimeClock {
-// public:
-//     static void init();
-//     static void update();
-//     static String getFormattedTime();
-// };
+class RealTimeClock {
+public:
+    static void init();
+    static void update();
+    static String getFormattedTime();
+};
 
-// #endif // REALTIMECLOCK_H
+#endif // REALTIMECLOCK_H

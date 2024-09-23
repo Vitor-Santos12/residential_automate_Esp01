@@ -11,8 +11,10 @@ struct Config {
     char wifiSSID[32];
     char wifiPassword[64];
     int piscaLed = 13;
-    char mqttServer[64];
-    int mqttPort;
+    String mqttBroker;
+    uint16_t mqttPort;
+    String mqttUser;
+    String mqttPassword;
     char firebaseHost[64];
     char firebaseAuth[64];
 };
