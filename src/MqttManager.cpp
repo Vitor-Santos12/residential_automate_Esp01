@@ -1,26 +1,25 @@
-#include <FS.h>
+/* #include <FS.h>
+#include <PubSubClient.h>
 #include "MqttManager.h"
 #include "Config.h"
 
 Config configMqttManager;
 
-MqttManager::MqttManager() {
-    // Construtor vazio
-}
-
-void MqttManager::init(Client &client) {
+void MqttManagerset::init(Client &client) {
 
     mqttClient.setClient(client);
 
     mqttClient.setServer(configMqttManager.mqttBroker.c_str(), configMqttManager.mqttPort);
+
+    return;
 }
 
-void MqttManager::connect() {
+void MqttManagerset::connect() {
 
     while (!mqttClient.connected()) {
         Serial.println("Connecting to MQTT...");
 
-        if (mqttClient.connect("ESP8266Client", configMqttManager.mqttUser.c_str(), configMqttManager.mqttPassword.c_str())) {
+        if (mqttClient.connect("House Automate", configMqttManager.mqttUser.c_str(), configMqttManager.mqttPassword.c_str())) {
             Serial.println("Connected to MQTT broker");
         } else {
             Serial.print("Failed to connect, rc=");
@@ -31,14 +30,14 @@ void MqttManager::connect() {
     }
 }
 
-void MqttManager::publish(const char* topic, const char* payload) {
+void MqttManagerset::publish(const char* topic, const char* payload) {
     mqttClient.publish(topic, payload);
 }
 
-void MqttManager::subscribe(const char* topic) {
+void MqttManagerset::subscribe(const char* topic) {
     mqttClient.subscribe(topic);
 }
 
-void MqttManager::loop() {
+void MqttManagerset::loop() {
     mqttClient.loop();
-}
+} */
