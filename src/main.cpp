@@ -89,7 +89,24 @@ void setup() {
 
 void loop() {
     // Atualiza o Watchdog
-    // ESP.wdtFeed();
+    ESP.wdtFeed();
+
+    Serial.println("\nMQTT configuration loaded:");
+    Serial.println("Broker: " + configurator.mqttBroker);
+    Serial.println("Port: " + String(configurator.mqttPort));
+    Serial.println("User: " + configurator.mqttUser);
+    Serial.println("Port: " + configurator.mqttPassword);
+
+    Serial.println("\nFirebase loaded");
+    Serial.println("Host: " + configurator.firebaseHost);
+    Serial.println("Auth: " + configurator.firebaseAuth);
+
+    Serial.println("\nPisca Led Pin Loaded");
+    Serial.println("wifiSSID: " + configurator.wifiSSID);
+    Serial.println("wifiPassword: " + configurator.wifiPassword);
+
+    Serial.println("\nPisca Led Pin Loaded");
+    Serial.println("Pisca: " + String(configurator.piscaLed));
 
     // Atualiza os módulos
     // Mqtt.loop();
@@ -98,7 +115,7 @@ void loop() {
     WebServer::handleClient();
     RTOSManager::runTasks();
     // ** Pisca Led Funcionou
-        blink();
+    blink();
     // Realiza um delay de 1 segundo
-        delay(1000);
+    delay(1000);
 }

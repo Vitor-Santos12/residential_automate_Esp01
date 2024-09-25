@@ -11,10 +11,6 @@ bool loadConfig(Config &config) {
         Serial.println("Failed to open secret.env file");
     }else{
         Serial.println("\nArquivo secret.env aberto com sucesso");
-        while(file.available()){
-            Serial.write(file.read());
-        }
-    }
 
     size_t size = file.size();
     if (size > 1024) {
@@ -30,6 +26,8 @@ bool loadConfig(Config &config) {
     int startIndex = 0;
     while (startIndex >= 0) {
         int endIndex = content.indexOf('\n', startIndex);
+        Serial.println("startIndex: " + startIndex);
+        Serial.println("endIndex" +endIndex);
         String line = content.substring(startIndex, endIndex);
         int separatorIndex = line.indexOf('=');
         if (separatorIndex >= 0) {
@@ -52,23 +50,7 @@ bool loadConfig(Config &config) {
         startIndex = endIndex + 1;
     }
 
-    Serial.println("\nMQTT configuration loaded:");
-    Serial.println("Broker: " + config.mqttBroker);
-    Serial.println("Port: " + String(config.mqttPort));
-    Serial.println("User: " + config.mqttUser);
-    Serial.println("Port: " + config.mqttPassword);
-
-    Serial.println("\nFirebase loaded");
-    Serial.println("Host: " + config.firebaseHost);
-    Serial.println("Auth: " + config.firebaseAuth);
-
-    Serial.println("\nPisca Led Pin Loaded");
-    Serial.println("wifiSSID: " + config.wifiSSID);
-    Serial.println("wifiPassword: " + config.wifiPassword);
-
-    Serial.println("\nPisca Led Pin Loaded");
-    Serial.println("Pisca: " + String(config.piscaLed));
-
+    }
 
     return true;
 }
