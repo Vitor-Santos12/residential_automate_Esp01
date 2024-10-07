@@ -26,8 +26,6 @@ bool loadConfig(Config &config) {
     int startIndex = 0;
     while (startIndex >= 0) {
         int endIndex = content.indexOf('\n', startIndex);
-        Serial.println("startIndex: " + startIndex);
-        Serial.println("endIndex" +endIndex);
         String line = content.substring(startIndex, endIndex);
         int separatorIndex = line.indexOf('=');
         if (separatorIndex >= 0) {

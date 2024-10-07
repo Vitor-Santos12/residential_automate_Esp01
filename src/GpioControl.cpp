@@ -8,6 +8,10 @@ void GpioControl::init() {
     // Inicialização dos pinos como INPUT por padrão
     setPinMode(GPIO0, OUTPUT);
     setPinMode(GPIO2, OUTPUT);
+
+    // Set up output pin
+    digitalWrite(GPIO0, HIGH);
+    digitalWrite(GPIO2, HIGH);
 }
 
 void GpioControl::setPinMode(uint8_t pin, uint8_t mode) {

@@ -6,22 +6,22 @@
 #include <ESP8266WiFi.h>
 #include <ElegantOTA.h>
 
-ESP8266WebServer server(80);
+// ESP8266WebServer server(80);
 
-void WebServer::init() {
-    server.on("/", []() {
-        server.send(200, "text/html", "/index.html");
-    });
+// void WebServer::init() {
+//     server.on("/", []() {
+//         server.send(200, "text/html", "/index.html");
+//     });
 
-    server.begin();
-    Serial.println("Servidor web iniciado!");
-}
+//     server.begin();
+//     Serial.println("Servidor web iniciado!");
+// }
 
-void WebServer::handleClient() {
-    server.handleClient();
-}
+// void WebServer::handleClient() {
+//     server.handleClient();
+// }
 
-void OTAUpdate::init() {
-    ElegantOTA.begin(&server);
-    server.begin();
-}
+// void OTAUpdate::init() {
+//     ElegantOTA.begin(&server);
+//     server.begin();
+// }

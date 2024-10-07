@@ -4,7 +4,7 @@
 /* #include "FirebaseManager.h"*/
 #include "GpioControl.h"
 #include "Scheduler.h"
-#include "OTAUpdate.h"
+// #include "OTAUpdate.h"
 #include "WebServerModule.h"
 #include "RealTimeClock.h"
 #include "RTOSManager.h"
@@ -14,6 +14,8 @@
 // MQTT de maneira simples
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
+
+void reconnect();
 
 Config configurator;
 
@@ -46,24 +48,42 @@ void callback(char* topic, byte* message, unsigned int length) {
 
 void setup() {
     Serial.begin(115200);
+    delay(10);
 
-    if (!loadConfig(configurator)) {
-        Serial.println("Falha ao carregar as configurações");
-        while (true);
+    Serial.print("MQTT_BROKER :");
+    Serial.println(configurator.mqttBroker);
+    Serial.print("LED_PISCALED :");
+    Serial.println(configurator.piscaLed);
+    Serial.print("WIFI_SSID :");
+    Serial.println(configurator.wifiSSID);
+
+
+    WiFi.begin("HELOISA_2G", "jujuba2910");
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(1000);
+        Serial.println("Conectando ao Wi-Fi...");
+        Serial.print("WIFI_SSID :");
+        Serial.println(configurator.wifiSSID);
     }
+    Serial.println("Conectado ao Wi-Fi!");
+    Serial.print("WIFI_SSID :");
+    Serial.println(configurator.wifiSSID);
     
-    // Inicializa Wi-Fi
-    WifiManager::init();
+    // // Inicializa Wi-Fi
+    // WifiManager::init();
 
-      // Configura o WiFi e o cliente MQTT
-    client.setServer(configurator.mqttBroker.c_str(), configurator.mqttPort);
+    // // Inicializa Web Server
+    // WebServer::init();
+
+    // Configura o WiFi e o cliente MQTT
+    client.setServer("test.mosquitto.org", 1883);
     client.setCallback(callback);
 
     // Inicializa MQTT
- /*    MqttManagerset Mqtt;
-    Mqtt.init();
-    Mqtt.connect();
- */
+    // MqttManagerset Mqtt;
+    // Mqtt.init();
+    // Mqtt.connect();
+
     // Inicializa Firebase
     /* FirebaseManager::init(); */
 
@@ -72,50 +92,59 @@ void setup() {
     GPIO.init();
 
     // Inicializa RTC
-    RealTimeClock::init();
+    // RealTimeClock::init();
 
     // Inicializa OTA Update
-    OTAUpdate::init();
-
-    // Inicializa Web Server
-    WebServer::init();
+    // OTAUpdate::init();
 
     // Inicializa Scheduler
-    Scheduler::init();
+    // Scheduler::init();
 
     // Inicializa RTOS Manager
-    RTOSManager::init();
+    // RTOSManager::init();
+
+    // Atualiza o Watchdog
+    // ESP.wdtDisable();
 }
 
 void loop() {
     // Atualiza o Watchdog
     ESP.wdtFeed();
 
-    Serial.println("\nMQTT configuration loaded:");
-    Serial.println("Broker: " + configurator.mqttBroker);
-    Serial.println("Port: " + String(configurator.mqttPort));
-    Serial.println("User: " + configurator.mqttUser);
-    Serial.println("Port: " + configurator.mqttPassword);
-
-    Serial.println("\nFirebase loaded");
-    Serial.println("Host: " + configurator.firebaseHost);
-    Serial.println("Auth: " + configurator.firebaseAuth);
-
-    Serial.println("\nPisca Led Pin Loaded");
-    Serial.println("wifiSSID: " + configurator.wifiSSID);
-    Serial.println("wifiPassword: " + configurator.wifiPassword);
-
-    Serial.println("\nPisca Led Pin Loaded");
-    Serial.println("Pisca: " + String(configurator.piscaLed));
-
     // Atualiza os módulos
     // Mqtt.loop();
+
+    // Mantém o cliente MQTT ativo
+    if (!client.connected()) {
+        reconnect();  // Função para reconectar ao MQTT se desconectado
+    }
+    client.loop();  // Mantém a conexão MQTT
+
     // FirebaseManager::update();
-    Scheduler::update();
-    WebServer::handleClient();
-    RTOSManager::runTasks();
+    // Scheduler::update();
+    // WebServer::handleClient();
+    // RTOSManager::runTasks();
     // ** Pisca Led Funcionou
     blink();
     // Realiza um delay de 1 segundo
-    delay(1000);
+    // delay(1000);
+}
+
+// Função para reconectar ao MQTT
+void reconnect() {
+    while (!client.connected()) {
+        Serial.print("Attempting MQTT connection...");
+        // Tente se conectar ao servidor MQTT
+        if (client.connect("ESP8266Client")) {
+            Serial.println("connected");
+            // Subscreva no tópico desejado
+            client.subscribe("esp01-8266/output");
+        } else {
+            Serial.print("failed, rc=");
+            Serial.print(client.state());
+            Serial.println(" try again in 5 seconds");
+            // Aguarde 5 segundos antes de tentar novamente
+            delay(5000);
+        }
+    }
 }
