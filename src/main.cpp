@@ -17,6 +17,8 @@
 
 void reconnect();
 
+
+
 Config configurator;
 
 WiFiClient espClient;
@@ -46,6 +48,18 @@ void callback(char* topic, byte* message, unsigned int length) {
   }
 }
 
+// Change the credentials below, so your ESP8266 connects to your router
+const char* ssid = "HELOISA_2G";
+const char* password = "jujuba2910";
+
+// MQTT broker credentials (set to NULL if not required)
+
+const char* mqtt_server = "test.mosquitto.org";
+
+
+const char* MQTT_username = "teste"; 
+const char* MQTT_password = "teste"; 
+
 void setup() {
     Serial.begin(115200);
     delay(10);
@@ -58,7 +72,7 @@ void setup() {
     Serial.println(configurator.wifiSSID);
 
 
-    WiFi.begin("HELOISA_2G", "jujuba2910");
+    WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
         delay(1000);
         Serial.println("Conectando ao Wi-Fi...");
@@ -76,7 +90,7 @@ void setup() {
     // WebServer::init();
 
     // Configura o WiFi e o cliente MQTT
-    client.setServer("test.mosquitto.org", 1883);
+    client.setServer(mqtt_server, 1883);
     client.setCallback(callback);
 
     // Inicializa MQTT
@@ -130,21 +144,35 @@ void loop() {
     // delay(1000);
 }
 
-// Função para reconectar ao MQTT
+// This functions reconnects your ESP8266 to your MQTT broker
+// Change the function below if you want to subscribe to more topics with your ESP8266 
 void reconnect() {
-    while (!client.connected()) {
-        Serial.print("Attempting MQTT connection...");
-        // Tente se conectar ao servidor MQTT
-        if (client.connect("ESP8266Client")) {
-            Serial.println("connected");
-            // Subscreva no tópico desejado
-            client.subscribe("esp01-8266/output");
-        } else {
-            Serial.print("failed, rc=");
-            Serial.print(client.state());
-            Serial.println(" try again in 5 seconds");
-            // Aguarde 5 segundos antes de tentar novamente
-            delay(5000);
-        }
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    /*
+     YOU MIGHT NEED TO CHANGE THIS LINE, IF YOU'RE HAVING PROBLEMS WITH MQTT MULTIPLE CONNECTIONS
+     To change the ESP device ID, you will have to give a new name to the ESP8266.
+     Here's how it looks:
+       if (client.connect("ESP8266Client")) {
+     You can do it like this:
+       if (client.connect("ESP1_Office")) {
+     Then, for the other ESP:
+       if (client.connect("ESP2_Garage")) {
+      That should solve your MQTT multiple connections problem
+    */
+    if (client.connect("ESP8266Client", MQTT_username, MQTT_password)) {
+      Serial.println("connected");  
+      // Subscribe or resubscribe to a topic
+      // You can subscribe to more topics (to control more LEDs in this example)
+      client.subscribe("room/lamp");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
     }
+  }
 }
