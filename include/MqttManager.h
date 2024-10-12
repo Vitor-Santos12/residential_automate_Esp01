@@ -1,4 +1,4 @@
-/* #ifndef MQTTMANAGER_H
+#ifndef MQTTMANAGER_H
 #define MQTTMANAGER_H
 
 #include <PubSubClient.h>
@@ -14,4 +14,4 @@ public:
     PubSubClient mqttClient;
 };
 
-#endif */
+#endif

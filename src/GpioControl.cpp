@@ -1,11 +1,12 @@
 #include "GpioControl.h"
 
 GpioControl::GpioControl() {
-    // Construtor, caso queira inicializar algo específico
+
 }
 
 void GpioControl::init() {
     // Inicialização dos pinos como INPUT por padrão
+    setPinMode(LED_BUILTIN, HIGH);
     setPinMode(GPIO0, OUTPUT);
     setPinMode(GPIO2, OUTPUT);
 }

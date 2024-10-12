@@ -1,6 +1,6 @@
 #include "Config.h"
 
-bool loadConfig(Config &config) {
+/* bool loadConfig(Config &config) {
 
     if (!SPIFFS.begin()) {
         Serial.println("Failed to mount file system");
@@ -42,8 +42,6 @@ bool loadConfig(Config &config) {
             else if (key == "FIREBASE_HOST") config.firebaseHost = value;
             else if (key == "FIREBASE_AUTH") config.firebaseAuth = value;
 
-            else if (key == "PISCALED") config.piscaLed = value.toInt();
-
             else if (key == "WIFI_SSID") config.wifiSSID = value;
             else if (key == "WIFI_PASSWORD") config.wifiPassword = value;
         }
@@ -54,7 +52,7 @@ bool loadConfig(Config &config) {
 
     return true;
 }
-
+ */
 // *** Biblioteca JSon não está funcionando
 
     // DynamicJsonDocument doc(1024);

@@ -1,6 +1,6 @@
 #include "Config.h"
 #include "WebServerAndOTAUpdate.h"
-/* #include "MqttManager.h" */
+#include "MqttManager.h"
 /* #include "FirebaseManager.h"*/
 #include "GpioControl.h"
 #include "Scheduler.h"
@@ -10,69 +10,31 @@
 #include "RTOSManager.h"
 #include "Blinkled.h"
 
+Config ConfigMain;
 
-// MQTT de maneira simples
-#include <PubSubClient.h>
-#include <ESP8266WiFi.h>
-
-Config configurator;
-
-WiFiClient espClient;
-PubSubClient client(espClient);
-
-void callback(char* topic, byte* message, unsigned int length) {
-  Serial.print("Message arrived on topic: ");
-  Serial.print(topic);
-  Serial.print(". Message: ");
-  String messageTemp;
-  
-  for (unsigned int i = 0; i < length; i++) {
-    Serial.print((char)message[i]);
-    messageTemp += (char)message[i];
-  }
-  Serial.println();
-
-  if (String(topic) == "esp01-8266/output") {
-    Serial.print("Changing output to ");
-    if (messageTemp == "on") {
-      Serial.println("on");
-      digitalWrite(configurator.piscaLed, HIGH);
-    } else if (messageTemp == "off") {
-      Serial.println("off");
-      digitalWrite(configurator.piscaLed, LOW);
-    }
-  }
-}
+MqttManagerset Mqtt;
 
 void setup() {
     Serial.begin(115200);
-
-    if (!loadConfig(configurator)) {
+  
+/*     if (!loadConfig(configurator)) {
         Serial.println("Falha ao carregar as configurações");
         while (true);
-    }
+    } */
     
     // Inicializa Wi-Fi
     WifiManager::init();
 
-      // Configura o WiFi e o cliente MQTT
-    client.setServer(configurator.mqttBroker.c_str(), configurator.mqttPort);
-    client.setCallback(callback);
-
     // Inicializa MQTT
- /*    MqttManagerset Mqtt;
-    Mqtt.init();
+    Mqtt.init(ConfigMain.espClient);
     Mqtt.connect();
- */
+
     // Inicializa Firebase
     /* FirebaseManager::init(); */
-
+ 
     // Inicializa GPIO
     GpioControl GPIO;
     GPIO.init();
-
-    // Inicializa RTC
-    RealTimeClock::init();
 
     // Inicializa OTA Update
     OTAUpdate::init();
@@ -80,42 +42,46 @@ void setup() {
     // Inicializa Web Server
     WebServer::init();
 
+/*     // Inicializa RTC
+    RealTimeClock::init();
+
     // Inicializa Scheduler
     Scheduler::init();
 
     // Inicializa RTOS Manager
-    RTOSManager::init();
+    RTOSManager::init(); */
 }
+
+/* bool teste = true; */
 
 void loop() {
     // Atualiza o Watchdog
     ESP.wdtFeed();
 
-    Serial.println("\nMQTT configuration loaded:");
-    Serial.println("Broker: " + configurator.mqttBroker);
-    Serial.println("Port: " + String(configurator.mqttPort));
-    Serial.println("User: " + configurator.mqttUser);
-    Serial.println("Port: " + configurator.mqttPassword);
+    Serial.println("\nMQTT values:");
+    Serial.println("Broker: " + ConfigMain.mqttBroker);
+    Serial.println("Port: " + String(ConfigMain.mqttPort));
+/*     Serial.println("User: " + configurator.mqttUser);
+    Serial.println("Port: " + configurator.mqttPassword); */
 
-    Serial.println("\nFirebase loaded");
-    Serial.println("Host: " + configurator.firebaseHost);
-    Serial.println("Auth: " + configurator.firebaseAuth);
-
-    Serial.println("\nPisca Led Pin Loaded");
-    Serial.println("wifiSSID: " + configurator.wifiSSID);
-    Serial.println("wifiPassword: " + configurator.wifiPassword);
-
-    Serial.println("\nPisca Led Pin Loaded");
-    Serial.println("Pisca: " + String(configurator.piscaLed));
+    Serial.println("\nFirebase values");
+    Serial.println("Host: " + ConfigMain.firebaseHost);
+    Serial.println("Auth: " + ConfigMain.firebaseAuth);
+    
+    Serial.println("\nWifi Values");
+    Serial.println("wifiSSID: " + ConfigMain.wifiSSID);
+    Serial.println("wifiPassword: ********");
 
     // Atualiza os módulos
-    // Mqtt.loop();
-    // FirebaseManager::update();
+/*     Mqtt.loop(); */
+    Mqtt.publish("esp01-8266/output","teste1");
+
+    Mqtt.subscribe("esp01-8266/output");
+
+/*     FirebaseManager::update();
     Scheduler::update();
     WebServer::handleClient();
-    RTOSManager::runTasks();
-    // ** Pisca Led Funcionou
+    RTOSManager::runTasks(); */
+
     blink();
-    // Realiza um delay de 1 segundo
-    delay(1000);
 }

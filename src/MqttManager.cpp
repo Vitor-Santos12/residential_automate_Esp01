@@ -1,4 +1,4 @@
-/* #include <FS.h>
+#include <FS.h>
 #include <PubSubClient.h>
 #include "MqttManager.h"
 #include "Config.h"
@@ -38,6 +38,6 @@ void MqttManagerset::subscribe(const char* topic) {
     mqttClient.subscribe(topic);
 }
 
-void MqttManagerset::loop() {
+/* void MqttManagerset::loop() {
     mqttClient.loop();
 } */

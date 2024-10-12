@@ -1,14 +1,20 @@
 #include "Config.h"
 #include "Blinkled.h"
 #include <Arduino.h>
+#include <PubSubClient.h>
+#include <MqttManager.h>
+
+MqttManagerset Mqttblink;
 
 void blink() {
 
 Config configblink;
-    digitalWrite(configblink.piscaLed, HIGH); // Liga o LED
+    digitalWrite(LED_BUILTIN, HIGH); // Liga o LED
+    Mqttblink.publish("esp01-8266/output", "LED: ON");
     Serial.println("LED: ON");
-    delay(500);                          // Espera 500 ms
-    digitalWrite(configblink.piscaLed, LOW);  // Desliga o LED
+    delay(10000);                          // Espera 10000 ms
+    digitalWrite(LED_BUILTIN, LOW);  // Desliga o LED
+    Mqttblink.publish("esp01-8266/output", "LED: OFF");
     Serial.println("LED: OFF");
-    delay(500);                          // Espera 500 ms
+    delay(10000);                          // Espera 10000 ms
 }
