@@ -2,6 +2,7 @@
 #include "Config.h"
 #include <ESP8266WiFi.h>
 #include <FS.h>
+#include "Blinkled.h"
 
 void WifiManager::init() {
 // Recieve configuration values
@@ -11,6 +12,7 @@ Config configWifiManager;
     while (WiFi.status() != WL_CONNECTED) {
         delay(1000);
         Serial.println("Conectando ao Wi-Fi...");
+        blink(300);
     }
     Serial.println("Conectado ao Wi-Fi!");
 }

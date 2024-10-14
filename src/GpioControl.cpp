@@ -6,7 +6,7 @@ GpioControl::GpioControl() {
 
 void GpioControl::init() {
     // Inicialização dos pinos como INPUT por padrão
-    setPinMode(LED_BUILTIN, HIGH);
+    setPinMode(LED_BUILTIN, OUTPUT);
     setPinMode(GPIO0, OUTPUT);
     setPinMode(GPIO2, OUTPUT);
 }

@@ -10,9 +10,17 @@
 #include "RTOSManager.h"
 #include "Blinkled.h"
 
+#include <ElegantOTA.h>
+
 Config ConfigMain;
 
+GpioControl GPIO;
+
 MqttManagerset Mqtt;
+
+// Timers auxiliar variables
+long now = millis();
+long lastMeasure = 0;
 
 void setup() {
     Serial.begin(115200);
@@ -33,7 +41,6 @@ void setup() {
     /* FirebaseManager::init(); */
  
     // Inicializa GPIO
-    GpioControl GPIO;
     GPIO.init();
 
     // Inicializa OTA Update
@@ -72,16 +79,38 @@ void loop() {
     Serial.println("wifiSSID: " + ConfigMain.wifiSSID);
     Serial.println("wifiPassword: ********");
 
+    if (now - lastMeasure > 3000) {
+    lastMeasure = now;
+    // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
+    float humidity = 1001+(rand())%4000;
+    // Read temperature as Celsius (the default)
+    float temperatureC = 1001+(rand())%4000;
+    // Read temperature as Fahrenheit (isFahrenheit = true)
+    float temperatureF = 1001+(rand())%4000;
+
+    // Publishes Temperature and Humidity values
+    Mqtt.publish("esp01-8266/output/temperature", String(temperatureC).c_str());
+    Mqtt.publish("esp01-8266/output/humidity", String(humidity).c_str());
+    Mqtt.publish("esp01-8266/output", "Atualização pelo ElegantOTA");
+    
+    Serial.print("Humidity: ");
+    Serial.print(humidity);
+    Serial.println(" %");
+    Serial.print("Temperature: ");
+    Serial.print(temperatureC);
+    Serial.println(" ºC");
+    Serial.print(temperatureF);
+    Serial.println(" ºF");
+  }
+
+    
     // Atualiza os módulos
-/*     Mqtt.loop(); */
-    Mqtt.publish("esp01-8266/output","teste1");
-
-    Mqtt.subscribe("esp01-8266/output");
-
+    Mqtt.loop();
+    WebServer::handleClient();
+    ElegantOTA.loop();
 /*     FirebaseManager::update();
     Scheduler::update();
     WebServer::handleClient();
     RTOSManager::runTasks(); */
-
-    blink();
+    blink(1000);
 }
