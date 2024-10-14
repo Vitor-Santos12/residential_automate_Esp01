@@ -19,8 +19,8 @@ void WebServer::init() {
         server.send(200, "text/plain", "Hi! This is ElegantOTA Demo.");
 
         // Send the index.html file (assuming it is served from SPIFFS or LittleFS)
-        if (SPIFFS.exists("/index.html")) {
-            File file = SPIFFS.open("/index.html", "r");
+        if (SPIFFS.exists("index.html")) {
+            File file = SPIFFS.open("index.html", "r");
             server.streamFile(file, "text/html");
             file.close();
         } else {

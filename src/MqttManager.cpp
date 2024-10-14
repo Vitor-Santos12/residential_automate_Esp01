@@ -10,7 +10,7 @@ MqttManagerset Mqttset;
 
 GpioControl MqttGPIO;
 
-void MqttManagerset::callback(char* topic, byte* payload, unsigned int length) {
+void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived on topic: ");
   Serial.print(topic);
   Serial.print(". Message: ");
@@ -47,6 +47,8 @@ void MqttManagerset::init(Client &client) {
     mqttClient.setClient(client);
 
     mqttClient.setServer(configMqttManager.mqttBroker.c_str(), configMqttManager.mqttPort);
+
+    mqttClient.setCallback(callback);
 
     return;
 }

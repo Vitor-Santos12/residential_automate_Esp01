@@ -65,22 +65,6 @@ void loop() {
     // Atualiza o Watchdog
     ESP.wdtFeed();
 
-    Serial.println("\nMQTT values:");
-    Serial.println("Broker: " + ConfigMain.mqttBroker);
-    Serial.println("Port: " + String(ConfigMain.mqttPort));
-/*     Serial.println("User: " + configurator.mqttUser);
-    Serial.println("Port: " + configurator.mqttPassword); */
-
-    Serial.println("\nFirebase values");
-    Serial.println("Host: " + ConfigMain.firebaseHost);
-    Serial.println("Auth: " + ConfigMain.firebaseAuth);
-    
-    Serial.println("\nWifi Values");
-    Serial.println("wifiSSID: " + ConfigMain.wifiSSID);
-    Serial.println("wifiPassword: ********");
-
-    if (now - lastMeasure > 3000) {
-    lastMeasure = now;
     // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
     float humidity = 1001+(rand())%4000;
     // Read temperature as Celsius (the default)
@@ -101,16 +85,15 @@ void loop() {
     Serial.println(" ºC");
     Serial.print(temperatureF);
     Serial.println(" ºF");
-  }
 
     
     // Atualiza os módulos
     Mqtt.loop();
     WebServer::handleClient();
     ElegantOTA.loop();
+
 /*     FirebaseManager::update();
     Scheduler::update();
-    WebServer::handleClient();
     RTOSManager::runTasks(); */
     blink(1000);
 }
